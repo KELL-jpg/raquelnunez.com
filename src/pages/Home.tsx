@@ -325,92 +325,91 @@ function CentralPRMap({ lang }: { lang: "es" | "en" }) {
 // ─── Navbar ────────────────────────────────────────────────────────────────────
 function Navbar({ scrolled, lang, setLang }: { scrolled: boolean; lang: "es" | "en"; setLang: (l: "es" | "en") => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
   const tx = t[lang];
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
       style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 40,
         background: scrolled ? "rgba(27,58,75,0.97)" : "transparent",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? "1px solid rgba(184,150,46,0.2)" : "none",
         WebkitBackfaceVisibility: "hidden",
         transform: "translateZ(0)",
-        willChange: "background",
+        transition: "background 0.3s, border-color 0.3s",
       }}
     >
       <div className="container">
-        <div className="flex items-center justify-between h-20">
-          <a href="#inicio" className="flex items-center gap-3">
-            <LogoMark size={44} />
-            <div>
-              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.05rem", color: "#F5F0E8", lineHeight: 1.1, letterSpacing: "0.01em" }}>
-                Lcda. Raquel Núñez Alicea
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "4.5rem" }}>
+          {/* Logo */}
+          <a href="#inicio" style={{ display: "flex", alignItems: "center", gap: "0.65rem", textDecoration: "none", flexShrink: 0 }}>
+            <LogoMark size={isMobile ? 36 : 44} />
+            {isMobile ? (
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "0.95rem", color: "#F5F0E8", lineHeight: 1.15, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>
+                Raquel Núñez
               </div>
-              <div style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.65rem", color: "#B8962E", letterSpacing: "0.18em", textTransform: "uppercase" }}>
-                Oficina Legal y Notarial
+            ) : (
+              <div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.05rem", color: "#F5F0E8", lineHeight: 1.1, letterSpacing: "0.01em" }}>
+                  Lcda. Raquel Núñez Alicea
+                </div>
+                <div style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.65rem", color: "#B8962E", letterSpacing: "0.18em", textTransform: "uppercase" }}>
+                  Oficina Legal y Notarial
+                </div>
               </div>
-            </div>
+            )}
           </a>
-          <div className="hidden md:flex items-center gap-6">
-            {tx.nav.map((item, i) => (
-              <a
-                key={item}
-                href={`#${tx.navIds[i]}`}
-                style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.82rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F5F0E8", opacity: 0.8, transition: "all 0.2s", whiteSpace: "nowrap", wordBreak: "normal" }}
-                onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "#B8962E"; (e.target as HTMLElement).style.opacity = "1"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "#F5F0E8"; (e.target as HTMLElement).style.opacity = "0.8"; }}
-              >
-                {item}
+          {/* Desktop nav */}
+          {!isMobile && (
+            <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+              {tx.nav.map((item, i) => (
+                <a key={item} href={`#${tx.navIds[i]}`}
+                  style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.82rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F5F0E8", opacity: 0.8, transition: "all 0.2s", whiteSpace: "nowrap", textDecoration: "none" }}
+                  onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "#B8962E"; (e.target as HTMLElement).style.opacity = "1"; }}
+                  onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "#F5F0E8"; (e.target as HTMLElement).style.opacity = "0.8"; }}
+                >{item}</a>
+              ))}
+              <button onClick={() => setLang(lang === "es" ? "en" : "es")}
+                style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.8rem", letterSpacing: "0.15em", color: "#B8962E", background: "rgba(184,150,46,0.1)", border: "1px solid rgba(184,150,46,0.4)", padding: "0.35rem 0.9rem", cursor: "pointer" }}>
+                {tx.lang}
+              </button>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "0.55rem 1.3rem", fontSize: "0.78rem" }}>
+                {tx.heroCta}
               </a>
-            ))}
-            <button
-              onClick={() => setLang(lang === "es" ? "en" : "es")}
-              style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.8rem", letterSpacing: "0.15em", color: "#B8962E", background: "rgba(184,150,46,0.1)", border: "1px solid rgba(184,150,46,0.4)", padding: "0.35rem 0.9rem", cursor: "pointer", transition: "all 0.2s" }}
-            >
-              {tx.lang}
-            </button>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: "0.55rem 1.3rem", fontSize: "0.78rem" }}>
-              {tx.heroCta}
-            </a>
-          </div>
-          <button
-            className="md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={menuOpen}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "5px",
-              width: "40px",
-              height: "40px",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              padding: "8px",
-            }}
-          >
-            {[0, 1, 2].map((i) => (
-              <span key={i} style={{ display: "block", width: "24px", height: "2px", backgroundColor: "#F5F0E8", transition: "all 0.3s", transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 1 ? "scaleX(0)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none" }} />
-            ))}
-          </button>
+            </div>
+          )}
+          {/* Mobile: lang toggle + hamburger */}
+          {isMobile && (
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <button onClick={() => setLang(lang === "es" ? "en" : "es")}
+                style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.75rem", letterSpacing: "0.12em", color: "#B8962E", background: "rgba(184,150,46,0.1)", border: "1px solid rgba(184,150,46,0.4)", padding: "0.3rem 0.7rem", cursor: "pointer" }}>
+                {tx.lang}
+              </button>
+              <button onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={menuOpen}
+                style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "5px", width: "40px", height: "40px", background: "transparent", border: "none", cursor: "pointer", padding: "8px" }}>
+                {[0, 1, 2].map((i) => (
+                  <span key={i} style={{ display: "block", width: "24px", height: "2px", backgroundColor: "#F5F0E8", transition: "all 0.3s", transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 1 ? "scaleX(0)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none" }} />
+                ))}
+              </button>
+            </div>
+          )}
         </div>
-        {menuOpen && (
+        {/* Mobile menu drawer */}
+        {isMobile && menuOpen && (
           <div style={{ background: "rgba(27,58,75,0.98)", borderTop: "1px solid rgba(184,150,46,0.2)", padding: "1.5rem 0" }}>
             {tx.nav.map((item, i) => (
               <a key={item} href={`#${tx.navIds[i]}`} onClick={() => setMenuOpen(false)}
-                style={{ display: "block", fontFamily: "'EB Garamond', serif", fontSize: "1.1rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F5F0E8", padding: "0.75rem 0", borderBottom: "1px solid rgba(184,150,46,0.1)" }}>
+                style={{ display: "block", fontFamily: "'EB Garamond', serif", fontSize: "1.1rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F5F0E8", padding: "0.75rem 0", borderBottom: "1px solid rgba(184,150,46,0.1)", textDecoration: "none" }}>
                 {item}
               </a>
             ))}
-            <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
-              <button onClick={() => { setLang(lang === "es" ? "en" : "es"); setMenuOpen(false); }}
-                style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.9rem", letterSpacing: "0.15em", color: "#B8962E", background: "rgba(184,150,46,0.1)", border: "1px solid rgba(184,150,46,0.4)", padding: "0.5rem 1.2rem", cursor: "pointer" }}>
-                {tx.lang}
-              </button>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, justifyContent: "center" }}>
+            <div style={{ marginTop: "1.5rem" }}>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>
                 {tx.heroCta}
               </a>
             </div>
