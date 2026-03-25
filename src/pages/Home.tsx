@@ -356,7 +356,7 @@ function Navbar({ scrolled, lang, setLang }: { scrolled: boolean; lang: "es" | "
               <a
                 key={item}
                 href={`#${tx.navIds[i]}`}
-                style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.82rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F5F0E8", opacity: 0.8, transition: "all 0.2s" }}
+                style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.82rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F5F0E8", opacity: 0.8, transition: "all 0.2s", whiteSpace: "nowrap", wordBreak: "normal" }}
                 onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "#B8962E"; (e.target as HTMLElement).style.opacity = "1"; }}
                 onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "#F5F0E8"; (e.target as HTMLElement).style.opacity = "0.8"; }}
               >

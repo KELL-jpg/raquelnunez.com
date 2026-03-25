@@ -73,8 +73,11 @@
     word-break: break-word;
     overflow-wrap: break-word;
   }
-  p, span, a, li {
+  p, span, li {
     word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  a {
     overflow-wrap: break-word;
   }
   img {
