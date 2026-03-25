@@ -8,17 +8,15 @@ import { useState, useEffect } from "react";
 import CookieConsent from "@/components/CookieConsent";
 // ─── Image URLs ────────────────────────────────────────────────────────────────
 const HERO_BG = "https://private-us-east-1.manuscdn.com/sessionFile/hhpR9nS0qZF6g8qUjNZ46u/sandbox/WAMTwDtQtQo7WIUAh2Nttb-img-1_1771968132000_na1fn_aGVyby1iZw.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvaGhwUjluUzBxWkY2ZzhxVWpOWjQ2dS9zYW5kYm94L1dBTVR3RHRRdFFvN1dJVUFoMk50dGItaW1nLTFfMTc3MTk2ODEzMjAwMF9uYTFmbl9hR1Z5YnkxaVp3LmpwZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=kYrYY41bEwqI~xTbm2QArjPRvNoOrTm311f3poRPbs7EBv1vmb0AcDMlfUdfMCVybqgRIwlF~GWGZq6XQp2mL95JivLy1yd3zt8sdiKQpbYed3fe65RnBisgQnLu24OhvpCIs5LFMTmlzBnXaEYXOt4mWlJK19M8xsk1dOQ0TNvyMDg~92IAm0xnbVmoHywc5maJu52gEspvFXAENl6ZDPS3tMjs8CdCD8vSsGfDQtR-FGYTAAgeGPiwANzJ6f-EwOjKdi-xq0k1mYNL-yIq~4yEJ9mHIbc95AHxXneE6R7uQogglIbAsMGOKIlnKPnmQLZRsC-DVWyFwwdfpCUklg__";
-const RAQUEL_PHOTO = "https://private-us-east-1.manuscdn.com/user_upload_by_module/session_file/310519663377085449/mmlHcAnFWCzlBvJP.jpg?Expires=1803505086&Signature=nt5OXdOKrtkkqbXMJbSkM1iw3ADET1NKNZ0P0WjQMSjrg5OFN-BkilbM7bMsO0erOd1dTDBbk54djTI48othT2Xs5MBI4M~mUQ8krW-id13m2juJ8W3KfurVVCe-b3Fg2glQ5nwoARoU4-rCuoeomIWyRCWRRACyTPaRXplQ2FaoVNOUz8iOkEXOvaa~u2vJblO36KUCgHw0gzikkWCHPTysQcTVvxw-MEjjuPBo2zfSxzmkcveZbELeFQpJWaYalZge1VRq8LWIm9ht4P~HkhwhswWXnr7ZwOjUmeozfTzJXB52Y6k1z77g63veydZzIfoHy5GbTOrsDNacCybGLw__&Key-Pair-Id=K2HSFNDJXOU9YS";
-const TEAM_BANKRUPTCY = "https://private-us-east-1.manuscdn.com/sessionFile/hhpR9nS0qZF6g8qUjNZ46u/sandbox/WtvvPu1zzd6ZWgod7ZCX88-img-2_1771969044000_na1fn_dGVhbS1hc3Npc3RhbnQtYmFua3J1cHRjeQ.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvaGhwUjluUzBxWkY2ZzhxVWpOWjQ2dS9zYW5kYm94L1d0dnZQdTF6emQ2Wldnb2Q3WkNYODgtaW1nLTJfMTc3MTk2OTA0NDAwMF9uYTFmbl9kR1ZoYlMxaGMzTnBjM1JoYm5RdFltRnVhM0oxY0hSamVRLmpwZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=PYVcKNHqbJOfag58LC1WPnHd9OxTw~FLTbyP45HtfCFftRpeSakzvQghuwyLO2GXLb1cbwT73jn84S2XWwAoIJOAORBbX06mju8YOAkHSWMcK1l9pfMO3CIc3wV1NxnTPHdyuUUNtwXXwTYLxrlt-rZ0df6FgJMJYlUOKMCa0CeHxPJzecNMwTwJcbOaKRkXGt8Qq3ITzlE3pq6asLGdWdibLpzVTn7W-SOj0E8tZL0suAAVDVYZ5xJnrCpe0dddeYOQK8rqiKMQc~lCpho06hYhFbINLUbJk79S0MH1R56xTQrG0M5YrMUBYP9Y-yxNSsWlRzlAuL8HoVmNklFFdw__";
-const TEAM_CIVIL = "https://private-us-east-1.manuscdn.com/sessionFile/hhpR9nS0qZF6g8qUjNZ46u/sandbox/WtvvPu1zzd6ZWgod7ZCX88-img-3_1771969050000_na1fn_dGVhbS1hc3Npc3RhbnQtY2l2aWw.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvaGhwUjluUzBxWkY2ZzhxVWpOWjQ2dS9zYW5kYm94L1d0dnZQdTF6emQ2Wldnb2Q3WkNYODgtaW1nLTNfMTc3MTk2OTA1MDAwMF9uYTFmbl9kR1ZoYlMxaGMzTnBjM1JoYm5RdFkybDJhV3cuanBnP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=prqCgN14jzy3~Qw8mifxe3xlySH0paN7DfPLFNx9WRCOJkVs~YBv7F0GGUFWrHM0QCImqcp4QZmxN~6dax-rJmsunS5S8MJ2sGwcaPvjV4mD5zlwgLQooJckC3UJwmbhzGu3YFxh2Zgi5wgFeD3j1t8r22IYo32tIdVkiiNwhap04hYatlN44TTU5mDc78Yr9T3eJJOfOOxIbKFknmysANzqyyRfGoi38voPRBCK5smPkwe5j5fE6sPuvDT6ooMamUrCTQfTQlwnOaL~~to5PeLJg2Dg4ulfLT15hNNz0~Q3jwHzx3qovun9Pd6GtOtRU86u75QBZQt7bNZROgmCdA__";
+const RAQUEL_PHOTO = "/raquel-profesional.jpg";
 const WHATSAPP_URL = "https://wa.me/19393736637?text=Hola%2C%20me%20interesa%20una%20consulta%20legal.";
 const PHONE = "939-373-6637";
 // ─── Translations ──────────────────────────────────────────────────────────────
 const t = {
   es: {
     lang: "EN",
-    nav: ["Servicios", "Equipo", "Zona", "Blog", "FAQ", "Contacto"],
-    navIds: ["servicios", "equipo", "zona", "blog", "faq", "contacto"],
+    nav: ["Servicios", "Zona", "Blog", "FAQ", "Contacto"],
+    navIds: ["servicios", "zona", "blog", "faq", "contacto"],
     badge: "Práctica Federal y Estatal · Puerto Rico",
     heroTitle: "Derecho a la Solución.™",
     heroSub: "Quiebras · Herencias · Escrituras · Contratos · Affidavits",
@@ -69,17 +67,6 @@ const t = {
     aboutCta: "Hablar con la Lcda.",
     aboutBadge1: "Práctica",
     aboutBadge2: "Federal y Estatal",
-    teamLabel: "Nuestro Equipo",
-    teamTitle: "Una Firma.\nUn Equipo.",
-    teamSub: "Contamos con un equipo especializado: una asistente dedicada a quiebras federales y una asistente dedicada al derecho civil. Atención directa, sin intermediarios.",
-    teamMembers: [
-      {
-        name: "Lcda. Raquel Núñez Alicea",
-        role: "Abogada y Notaria",
-        spec: "Quiebras Federales · Derecho Civil · Derecho Notarial",
-        img: RAQUEL_PHOTO,
-      },
-    ],
     zoneLabel: "Zona de Servicio",
     zoneTitle: "La Zona Central,\nCubierta.",
     zoneSub: "No tiene que viajar a San Juan para obtener representación de primer nivel. Nuestra oficina en Cidra está estratégicamente posicionada para servir a toda la región central con la misma excelencia que los grandes despachos metropolitanos.",
@@ -155,8 +142,8 @@ const t = {
   },
   en: {
     lang: "ES",
-    nav: ["Services", "Team", "Coverage", "Blog", "FAQ", "Contact"],
-    navIds: ["servicios", "equipo", "zona", "blog", "faq", "contacto"],
+    nav: ["Services", "Coverage", "Blog", "FAQ", "Contact"],
+    navIds: ["servicios", "zona", "blog", "faq", "contacto"],
     badge: "Federal & State Practice · Puerto Rico",
     heroTitle: "Your Right to a Solution.™",
     heroSub: "Bankruptcy · Estates · Deeds · Contracts · Affidavits",
@@ -207,17 +194,6 @@ const t = {
     aboutCta: "Speak with the Attorney",
     aboutBadge1: "Federal &",
     aboutBadge2: "State Practice",
-    teamLabel: "Our Team",
-    teamTitle: "One Firm.\nOne Team.",
-    teamSub: "Our team includes a dedicated assistant for federal bankruptcy and a dedicated assistant for civil law. Direct attention, no intermediaries.",
-    teamMembers: [
-      {
-        name: "Lcda. Raquel Núñez Alicea",
-        role: "Attorney & Notary",
-        spec: "Federal Bankruptcy · Civil Law · Notarial Law",
-        img: RAQUEL_PHOTO,
-      },
-    ],
     zoneLabel: "Coverage Area",
     zoneTitle: "Central Puerto Rico,\nCovered.",
     zoneSub: "You don't need to travel to San Juan for top-tier legal representation. Our office in Cidra is strategically positioned to serve the entire central region with the same excellence as major metropolitan firms.",
@@ -622,60 +598,6 @@ function About({ lang }: { lang: "es" | "en" }) {
     </section>
   );
 }
-// ─── Team ──────────────────────────────────────────────────────────────────────
-function Team({ lang }: { lang: "es" | "en" }) {
-  const tx = t[lang];
-  return (
-    <section id="equipo" className="section-pad" style={{ background: "#1B3A4B" }}>
-      <div className="container">
-        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <span className="section-label">{tx.teamLabel}</span>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 600, color: "#F5F0E8", lineHeight: 1.1, whiteSpace: "pre-line" }}>{tx.teamTitle}</h2>
-          <span className="gold-divider" style={{ margin: "1.5rem auto" }} />
-          <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.05rem", color: "#F5F0E8", opacity: 0.7, maxWidth: "480px", margin: "0 auto" }}>{tx.teamSub}</p>
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "3rem" }}>
-          <div style={{ width: "100%", maxWidth: "320px", background: "rgba(18,40,56,0.6)", border: "1px solid rgba(184,150,46,0.25)", overflow: "hidden", transition: "all 0.3s" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(184,150,46,0.5)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(184,150,46,0.25)"; }}>
-            <div style={{ aspectRatio: "3/4", overflow: "hidden", position: "relative" }}>
-              <img src={RAQUEL_PHOTO} alt="Lcda. Raquel Núñez Alicea" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", transition: "transform 0.4s" }}
-                onMouseEnter={(e) => { (e.target as HTMLElement).style.transform = "scale(1.04)"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.transform = "scale(1)"; }} />
-              <div style={{ position: "absolute", top: "1rem", left: "1rem", background: "rgba(184,150,46,0.9)", padding: "0.2rem 0.7rem" }}>
-                <span style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#1B3A4B", fontWeight: 600 }}>
-                  {lang === "es" ? "Abogada Principal" : "Lead Attorney"}
-                </span>
-              </div>
-            </div>
-            <div style={{ padding: "1.75rem 1.5rem" }}>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 600, color: "#F5F0E8", marginBottom: "0.25rem" }}>Lcda. Raquel Núñez Alicea</h3>
-              <div style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#B8962E", marginBottom: "0.75rem" }}>
-                {lang === "es" ? "Abogada y Notaria" : "Attorney & Notary"}
-              </div>
-              <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.9rem", color: "#F5F0E8", opacity: 0.6, lineHeight: 1.6 }}>
-                {lang === "es" ? "Quiebras Federales · Derecho Civil · Derecho Notarial" : "Federal Bankruptcy · Civil Law · Notarial Law"}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-          {[
-            { es: "Asistente Legal — Quiebras Federales", en: "Legal Assistant — Federal Bankruptcy" },
-            { es: "Asistente Legal — Derecho Civil", en: "Legal Assistant — Civil Law" },
-          ].map((item, i) => (
-            <div key={i} style={{ border: "1px solid rgba(184,150,46,0.2)", padding: "1.25rem 2rem", display: "flex", alignItems: "center", gap: "1rem", background: "rgba(18,40,56,0.4)" }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#B8962E", flexShrink: 0 }} />
-              <span style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.95rem", color: "#F5F0E8", opacity: 0.75, letterSpacing: "0.04em" }}>
-                {lang === "es" ? item.es : item.en}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 // ─── Coverage Zone ─────────────────────────────────────────────────────────────
 function CoverageZone({ lang }: { lang: "es" | "en" }) {
   const tx = t[lang];
@@ -929,7 +851,6 @@ export default function Home() {
       <Hero lang={lang} />
       <Services lang={lang} />
       <About lang={lang} />
-      <Team lang={lang} />
       <CoverageZone lang={lang} />
       <Blog lang={lang} />
       <FAQ lang={lang} />
