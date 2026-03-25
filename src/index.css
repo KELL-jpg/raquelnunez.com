@@ -1,8 +1,9 @@
 /*
  * DESIGN SYSTEM — Lcda. Raquel Núñez Alicea
- * Color Philosophy: Azul Petróleo #1B3A4B + Dorado #B8962E + Crema #F5F0E8
+ * Design Movement: Classic Legal Authority — Puerto Rico Zona Central
+ * Color Philosophy: Azul Petróleo #1B3A4B (authority/trust) + Dorado #B8962E (prestige) + Crema #F5F0E8 (warmth)
  * Typography: Cormorant Garamond (display) + EB Garamond (body)
- * Layout: MOBILE-FIRST
+ * Layout: MOBILE-FIRST — single column base, expand to multi-column at md breakpoint
  */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
 @tailwind base;
@@ -124,7 +125,6 @@
     transition: all 0.25s ease;
     border: 2px solid #B8962E;
     white-space: nowrap;
-    text-decoration: none;
   }
   .btn-primary:hover {
     background-color: #D4AF6A;
