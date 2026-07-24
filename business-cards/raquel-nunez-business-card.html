@@ -151,10 +151,31 @@
 
     .back .safe {
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 0.1in;
+      grid-template-rows: auto auto auto;
+      gap: 0.08in;
       align-items: center;
       text-align: center;
+    }
+
+    .citas {
+      margin: 0.03in auto 0;
+      width: 100%;
+      max-width: 2.9in;
+      text-align: left;
+    }
+
+    .citas-label {
+      margin: 0 0 0.04in;
+      color: var(--gold);
+      font-size: 6.6pt;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .citas-line {
+      height: 0.16in;
+      border-bottom: 0.5px solid rgba(38, 63, 76, 0.35);
     }
 
     .service-line {
@@ -276,9 +297,15 @@
             </span>
             <span>939-373-6637</span>
           </li>
-          <li>raquelnunez.com</li>
+          <li>legal@raquelnunez.com · raquelnunez.com</li>
           <li>74 Calle Antonio R. Barceló,<br>Cidra, PR 00739</li>
         </ul>
+        <div class="citas">
+          <p class="citas-label">Citas</p>
+          <div class="citas-line"></div>
+          <div class="citas-line"></div>
+          <div class="citas-line"></div>
+        </div>
       </div>
     </section>
   </main>
